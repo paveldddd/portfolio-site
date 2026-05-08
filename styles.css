@@ -184,6 +184,7 @@ button {
   width: 1px;
   height: 42px;
   background: linear-gradient(var(--dim), transparent);
+  opacity: var(--scroll-cue-opacity, 1);
 }
 
 .hero-samurai {
@@ -387,6 +388,8 @@ p {
   font-weight: 800;
   letter-spacing: 0.17em;
   text-transform: uppercase;
+  opacity: var(--scroll-cue-opacity, 1);
+  transition: opacity 160ms ease;
 }
 
 .work,
@@ -464,9 +467,10 @@ p {
 }
 
 .section-kanji-contact {
-  left: clamp(28px, 7vw, 120px);
-  right: auto;
-  bottom: clamp(18px, 3vw, 54px);
+  top: clamp(124px, 18vw, 238px);
+  right: clamp(252px, 28vw, 560px);
+  bottom: auto;
+  left: auto;
 }
 
 .filters {

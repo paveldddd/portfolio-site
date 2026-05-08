@@ -502,10 +502,12 @@ if (!prefersReducedMotion) {
     const ny = pointerY / Math.max(window.innerHeight, 1) - 0.5;
     const scrollRatio = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1.4);
     const cursorOpacity = Math.max(0, 0.38 * (1 - scrollRatio));
+    const scrollCueOpacity = Math.max(0, 1 - window.scrollY / 180);
 
     root.style.setProperty("--pointer-x", `${pointerX}px`);
     root.style.setProperty("--pointer-y", `${pointerY}px`);
     root.style.setProperty("--cursor-opacity", cursorOpacity.toFixed(3));
+    root.style.setProperty("--scroll-cue-opacity", scrollCueOpacity.toFixed(3));
     root.style.setProperty("--hero-drift-x", `${nx * 8}px`);
     root.style.setProperty("--hero-drift-y", `${scrollRatio * 280 + ny * 10}px`);
     root.style.setProperty("--copy-drift-x", `${nx * -3}px`);
