@@ -627,6 +627,7 @@ p {
     url("assets/imported/profile-linkedin-bg.png") center / cover no-repeat;
   padding: clamp(22px, 3vw, 34px);
   overflow: hidden;
+  transition: border-color 220ms ease, filter 220ms ease, box-shadow 220ms ease;
 }
 
 .profile-card::after {
@@ -640,6 +641,17 @@ p {
   background-size: 100% 4px, auto;
   mix-blend-mode: screen;
   opacity: 0.52;
+  transition: opacity 220ms ease;
+}
+
+.profile-card:hover {
+  border-color: rgba(232, 235, 238, 0.32);
+  filter: brightness(1.14);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38), 0 0 42px rgba(232, 235, 238, 0.08);
+}
+
+.profile-card:hover::after {
+  opacity: 0.7;
 }
 
 .profile-card p {
