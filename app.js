@@ -142,8 +142,11 @@ const projects = [
     title: "Environment assets 02",
     category: "environment",
     label: "Environment",
-    image: "assets/imported/gallery/environment-assets-02/pavlo_p-3.jpg",
+    image: "assets/imported/gallery/environment-assets-02/pavlo_p-desert.jpg",
     images: [
+      "assets/imported/gallery/environment-assets-02/pavlo_p-desert.jpg",
+      "assets/imported/gallery/environment-assets-02/pavlo_p-winter.jpg",
+      "assets/imported/gallery/environment-assets-02/pavlo_p-palms.jpg",
       "assets/imported/gallery/environment-assets-02/pavlo_p-3.jpg",
       "assets/imported/gallery/environment-assets-02/pavlo_p-screenshot-8.jpg",
       "assets/imported/gallery/environment-assets-02/pavlo_p-screenshot-3.jpg",
@@ -311,7 +314,7 @@ function getProjectTags(project) {
     tags.add("realistic");
   }
 
-  if (project.category === "stylization") {
+  if (project.category === "stylization" || project.title === "Kiki") {
     tags.add("stylization");
   }
 

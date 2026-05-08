@@ -618,6 +618,7 @@ p {
   display: grid;
   gap: 22px;
   align-content: start;
+  margin-top: clamp(-112px, -6vw, -82px);
   min-height: clamp(320px, 34vw, 520px);
   border: 1px solid var(--line);
   background:
@@ -903,6 +904,10 @@ p {
   .profile-layout,
   .contact {
     grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    margin-top: 0;
   }
 
   .hero-samurai {
