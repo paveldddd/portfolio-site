@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#060707"/>
+      <stop offset=".45" stop-color="#1a1d20"/>
+      <stop offset="1" stop-color="#050607"/>
+    </linearGradient>
+    <linearGradient id="body" x1=".1" x2=".9" y1="0" y2="1">
+      <stop stop-color="#e7edf2"/>
+      <stop offset=".45" stop-color="#6b747f"/>
+      <stop offset="1" stop-color="#12161a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#bg)"/>
+  <path d="M286 1028c24-286 170-482 372-482s306 198 284 482c-214 132-432 136-656 0Z" fill="url(#body)" stroke="#e6edf2" stroke-opacity=".22" stroke-width="4"/>
+  <path d="M410 542 310 282l254 190M766 482l206-214-74 308" fill="#151a1f" stroke="#e6edf2" stroke-opacity=".25" stroke-width="4"/>
+  <circle cx="514" cy="754" r="34" fill="#6bd0d2"/>
+  <circle cx="742" cy="754" r="34" fill="#6bd0d2"/>
+  <path d="M536 910c52 42 134 44 194 0" stroke="#050607" stroke-opacity=".46" stroke-width="20" fill="none" stroke-linecap="round"/>
+  <text x="74" y="110" fill="#6bd0d2" font-family="Arial, sans-serif" font-size="32" font-weight="700">CREATURE</text>
+</svg>

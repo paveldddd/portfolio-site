@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500">
+  <defs>
+    <radialGradient id="bg" cx=".5" cy=".25" r=".8">
+      <stop stop-color="#252b31"/>
+      <stop offset=".5" stop-color="#090b0d"/>
+      <stop offset="1" stop-color="#030303"/>
+    </radialGradient>
+    <linearGradient id="skin" x1=".2" x2=".8" y1=".1" y2="1">
+      <stop stop-color="#edf2f6"/>
+      <stop offset=".42" stop-color="#77828d"/>
+      <stop offset=".9" stop-color="#11161b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#bg)"/>
+  <path d="M336 1238c36-260 120-408 252-444 134-36 238 86 306 444Z" fill="#12171d" stroke="#d8e0e7" stroke-opacity=".2" stroke-width="4"/>
+  <path d="M438 458c22-162 120-250 236-228 118 22 190 132 174 292-18 184-114 302-232 302-112 0-198-142-178-366Z" fill="url(#skin)"/>
+  <path d="M434 452c114-128 268-120 424 24-18-162-108-258-234-264-108-4-184 72-190 240Z" fill="#07090b"/>
+  <path d="M494 612c68 48 166 48 240 0" stroke="#07090b" stroke-opacity=".52" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <text x="74" y="110" fill="#6bd0d2" font-family="Arial, sans-serif" font-size="32" font-weight="700">BUST</text>
+</svg>

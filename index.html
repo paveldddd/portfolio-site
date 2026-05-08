@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pavlo Pukha | 3D Artist Portfolio</title>
+    <meta
+      name="description"
+      content="3D portfolio for Pavlo Pukha, character and environment artist."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="page-texture" aria-hidden="true"></div>
+    <div class="cursor-light" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Pavlo Pukha portfolio home">
+        <span>Pavlo Pukha</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#profile">3D Artist</a>
+        <a href="#contact">Contact</a>
+        <a href="https://pavlo_p.artstation.com/" target="_blank" rel="noreferrer">ArtStation</a>
+      </nav>
+    </header>
+
+    <main id="top">
+        <section class="hero section-band">
+          <img class="hero-samurai" src="assets/imported/samurai-render-rain-upscale.jpg" alt="">
+        <div class="kanji-mark" aria-hidden="true">武</div>
+        <div class="retro-rail rail-left" aria-hidden="true">PORTFOLIO / 作品集</div>
+        <div class="retro-rail rail-right" aria-hidden="true">3D ARTIST</div>
+        <div class="hero-copy">
+          <h1>Pavlo<br>Pukha</h1>
+          <p>
+            Senior 3D Artist. Characters, hard surface, environments, and full pipeline
+            production for games, VR/AR, and product visualization.
+          </p>
+          <div class="hero-tags" aria-label="Portfolio themes">
+            <span>Realistic</span>
+            <span>Stylized</span>
+            <span>Characters</span>
+          </div>
+        </div>
+        <a class="scroll-cue" href="#work">Scroll</a>
+      </section>
+
+      <section id="work" class="work section-band">
+        <div class="section-stamp" aria-hidden="true">選</div>
+        <div class="section-head">
+          <span class="section-number">01</span>
+          <div>
+            <h2>Selected works</h2>
+            <p>Projects open here as a local viewing room, so the flow stays inside the site.</p>
+          </div>
+        </div>
+
+        <div class="filters" role="tablist" aria-label="Filter portfolio work">
+          <button class="filter-button active" type="button" data-filter="all" role="tab" aria-selected="true">All</button>
+          <button class="filter-button" type="button" data-filter="characters" role="tab" aria-selected="false">Characters</button>
+          <button class="filter-button" type="button" data-filter="portraits" role="tab" aria-selected="false">Portraits</button>
+          <button class="filter-button" type="button" data-filter="hard-surface" role="tab" aria-selected="false">Hard surface</button>
+          <button class="filter-button" type="button" data-filter="stylization" role="tab" aria-selected="false">Stylized</button>
+          <button class="filter-button" type="button" data-filter="environment" role="tab" aria-selected="false">Environment</button>
+        </div>
+
+        <div class="gallery" id="gallery" aria-live="polite"></div>
+      </section>
+
+      <section id="profile" class="profile section-band">
+        <div class="section-head">
+          <span class="section-number">02</span>
+          <div>
+            <h2>Profile</h2>
+          </div>
+        </div>
+
+        <div class="profile-layout">
+          <p class="artist-statement">
+            Proactive 3D artist focused on high-quality asset production, art fundamentals, and
+            the technical pipeline behind game-ready work.
+          </p>
+          <div class="profile-card" aria-label="Artist profile summary">
+            <p>
+              Strong understanding of game development pipelines, high and low poly modeling,
+              sculpting, texturing, topology for animation, and asset setup for Unity and Unreal.
+            </p>
+            <a class="profile-link" href="https://www.linkedin.com/in/pavelpouhat/" target="_blank" rel="noreferrer">
+              LinkedIn resume
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="contact section-band">
+        <div>
+          <span class="section-number">03</span>
+          <h2>Always open to thoughtful conversations and new 3D art opportunities.</h2>
+        </div>
+        <div class="contact-actions">
+          <a class="button primary" href="https://www.linkedin.com/in/pavelpouhat/" target="_blank" rel="noreferrer">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M6.9 8.9h-4v12h4v-12Zm.3-3.7a2.25 2.25 0 1 0-4.5 0 2.25 2.25 0 0 0 4.5 0ZM21.3 14c0-3.4-1.8-5.3-4.7-5.3-2.1 0-3.1 1.2-3.6 2v-1.8H9.1v12H13v-6.6c0-1.7.8-2.6 2.2-2.6 1.3 0 2 1 2 2.7v6.5h4.1V14Z"/>
+            </svg>
+            LinkedIn resume
+          </a>
+          <a class="button ghost" href="https://pavlo_p.artstation.com/" target="_blank" rel="noreferrer">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M3.1 15.7 6 20.8h11.4l-2.9-5.1H3.1Zm18.8 0L13.5 1.2H7.7l11.3 19.6 2.9-5.1ZM8.6 6.4l-3.4 6h7l-3.6-6Z"/>
+            </svg>
+            ArtStation portfolio
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal" id="project-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" type="button" aria-label="Back to selected works">Back</button>
+      <div class="modal-dialog">
+        <div class="modal-copy">
+          <p id="modal-category"></p>
+          <h3 id="modal-title"></h3>
+          <p id="modal-description"></p>
+          <p class="gallery-count" id="gallery-count"></p>
+        </div>
+        <div class="modal-gallery" id="modal-gallery" aria-label="Project image gallery"></div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

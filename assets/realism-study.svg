@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500">
+  <defs>
+    <radialGradient id="glow" cx=".52" cy=".38" r=".55">
+      <stop stop-color="#dbe5ec" stop-opacity=".35"/>
+      <stop offset=".44" stop-color="#232a31"/>
+      <stop offset="1" stop-color="#030405"/>
+    </radialGradient>
+    <linearGradient id="metal" x1=".1" x2=".9" y1=".1" y2=".9">
+      <stop stop-color="#f9fbfc"/>
+      <stop offset=".18" stop-color="#717c87"/>
+      <stop offset=".45" stop-color="#101418"/>
+      <stop offset=".72" stop-color="#c4ccd4"/>
+      <stop offset="1" stop-color="#1b2026"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#glow)"/>
+  <circle cx="604" cy="690" r="330" fill="url(#metal)" stroke="#e7edf2" stroke-opacity=".28" stroke-width="4"/>
+  <ellipse cx="510" cy="520" rx="134" ry="96" fill="#ffffff" opacity=".18"/>
+  <path d="M226 1038c218 122 515 131 756 0" fill="none" stroke="#d8e0e7" stroke-opacity=".16" stroke-width="28"/>
+  <path d="M186 260h828M186 1244h828" stroke="#d8e0e7" stroke-opacity=".15" stroke-width="2"/>
+  <text x="74" y="110" fill="#6bd0d2" font-family="Arial, sans-serif" font-size="32" font-weight="700">REALISM</text>
+</svg>
