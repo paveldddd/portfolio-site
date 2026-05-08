@@ -511,6 +511,7 @@ if (!prefersReducedMotion) {
     root.style.setProperty("--copy-drift-x", `${nx * -3}px`);
     root.style.setProperty("--copy-drift-y", `${scrollRatio * -118 + ny * -4}px`);
     root.style.setProperty("--kanji-drift-y", `${scrollRatio * -260}px`);
+    root.style.setProperty("--hero-rail-y", `${scrollRatio * -190 + ny * 8}px`);
     root.style.setProperty("--hero-scale", `${1 + scrollRatio * 0.095}`);
     root.style.setProperty("--section-rail-x", "0px");
     root.style.setProperty("--section-rail-y", `${scrollRatio * -148 + ny * 8}px`);

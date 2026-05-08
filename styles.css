@@ -233,6 +233,8 @@ button {
   line-height: 1;
   text-transform: uppercase;
   writing-mode: vertical-rl;
+  transform: translate3d(0, calc(-50% + var(--hero-rail-y, 0px)), 0);
+  will-change: transform;
 }
 
 .retro-rail::before,
@@ -639,16 +641,14 @@ p {
 }
 
 .section-head,
-.profile-layout,
-.contact > * {
+.profile-layout {
   transform: translateY(18px);
   opacity: 0;
   transition: transform 520ms ease, opacity 520ms ease;
 }
 
 .section-head.is-visible,
-.profile-layout.is-visible,
-.contact > .is-visible {
+.profile-layout.is-visible {
   transform: translateY(0);
   opacity: 1;
 }
@@ -1252,6 +1252,7 @@ p {
 
   .hero-samurai,
   .hero-copy,
+  .retro-rail,
   .kanji-mark,
   .section-rail,
   .section-kanji {
