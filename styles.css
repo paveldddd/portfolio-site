@@ -345,17 +345,18 @@ p {
   margin-top: 24px;
 }
 
-.hero-tags span,
+.hero-tags button,
 .filter-button,
 .button {
   border-radius: 999px;
 }
 
-.hero-tags span {
+.hero-tags button {
   border: 1px solid var(--line);
   padding: 8px 13px;
   color: var(--dim);
   background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
   font-size: 0.68rem;
   font-weight: 900;
   letter-spacing: 0.15em;
@@ -363,10 +364,12 @@ p {
   transition: border-color 180ms ease, color 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
-.hero-tags span:hover {
+.hero-tags button:hover,
+.hero-tags button:focus-visible {
   border-color: rgba(232, 235, 238, 0.36);
   color: var(--text);
   background: rgba(255, 255, 255, 0.06);
+  outline: none;
   box-shadow: 0 0 28px rgba(232, 235, 238, 0.08);
 }
 

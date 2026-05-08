@@ -290,6 +290,7 @@ const projects = [
 
 const gallery = document.querySelector("#gallery");
 const filterButtons = document.querySelectorAll(".filter-button");
+const heroTagButtons = document.querySelectorAll(".hero-tags button");
 const modal = document.querySelector("#project-modal");
 const modalGallery = document.querySelector("#modal-gallery");
 const modalTitle = document.querySelector("#modal-title");
@@ -303,11 +304,33 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 let activeProject = null;
 let projectHistoryOpen = false;
 
+function getProjectTags(project) {
+  const tags = new Set([project.category]);
+
+  if (project.category === "hard-surface" || project.category === "environment") {
+    tags.add("realistic");
+  }
+
+  if (project.category === "stylization") {
+    tags.add("stylization");
+  }
+
+  if (project.category === "characters" || project.title === "Anime style Comic" || project.title === "Stylised Knight") {
+    tags.add("characters");
+  }
+
+  if (project.title === "Samurai" || project.title === "Bigfoot characters") {
+    tags.add("realistic");
+  }
+
+  return [...tags];
+}
+
 function renderGallery() {
   gallery.innerHTML = projects
     .map(
       (project, index) => `
-        <article class="project-card ${project.featured ? "project-card-featured" : ""}" data-category="${project.category}" data-index="${index}" tabindex="0">
+        <article class="project-card ${project.featured ? "project-card-featured" : ""}" data-category="${project.category}" data-tags="${getProjectTags(project).join(" ")}" data-index="${index}" tabindex="0">
           <picture>
             ${project.mobileImage ? `<source media="(max-width: 640px)" srcset="${project.mobileImage}">` : ""}
             <img src="${project.image}" alt="${project.title}">
@@ -323,7 +346,8 @@ function renderGallery() {
 
 function filterProjects(filter) {
   document.querySelectorAll(".project-card").forEach((card) => {
-    const match = filter === "all" || card.dataset.category === filter;
+    const tags = (card.dataset.tags || card.dataset.category || "").split(" ");
+    const match = filter === "all" || tags.includes(filter);
     card.classList.toggle("is-hidden", !match);
   });
 }
@@ -423,6 +447,16 @@ filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     setActiveFilter(button);
     filterProjects(button.dataset.filter);
+  });
+});
+
+heroTagButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const filter = button.dataset.filter;
+    const matchingFilter = [...filterButtons].find((item) => item.dataset.filter === filter);
+    if (matchingFilter) setActiveFilter(matchingFilter);
+    filterProjects(filter);
+    document.querySelector("#work").scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
   });
 });
 
