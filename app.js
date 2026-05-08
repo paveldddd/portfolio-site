@@ -289,7 +289,7 @@ const projects = [
       "A stylized character piece with a clear identity and playful visual direction.",
     storyLabel: "Personal stylized character",
     story: [
-      "A project I did for fun, inspired by a wonderful Kurosawa movie. The goal was to keep the character light and appealing while still giving the materials and presentation enough polish to feel finished.",
+      "A project I did for fun, inspired by a wonderful Miyazaki movie. The goal was to keep the character light and appealing while still giving the materials and presentation enough polish to feel finished.",
     ],
   },
 ];
