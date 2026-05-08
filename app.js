@@ -199,6 +199,9 @@ const projects = [
     label: "Hard surface",
     image: "assets/imported/gallery/subdivision-hard-surface/pavlo_p-apple-vision-pro-05.webp",
     images: [
+      "assets/imported/gallery/subdivision-hard-surface/nda-hard-surf-03.png",
+      "assets/imported/gallery/subdivision-hard-surface/nda-hard-surf-01.png",
+      "assets/imported/gallery/subdivision-hard-surface/nda-hard-surf-02.png",
       "assets/imported/gallery/subdivision-hard-surface/pavlo_p-apple-vision-pro-05.webp",
       "assets/imported/gallery/subdivision-hard-surface/pavlo_p-apple-vision-pro.jpg",
       "assets/imported/gallery/subdivision-hard-surface/pavlo_p-apple-vision-pro-06.webp",
@@ -303,6 +306,7 @@ const modalClose = document.querySelector(".modal-close");
 const galleryCount = document.querySelector("#gallery-count");
 const root = document.documentElement;
 const heroSamurai = document.querySelector(".hero-samurai");
+const parallaxSections = document.querySelectorAll(".profile, .contact");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let activeProject = null;
 let projectHistoryOpen = false;
@@ -497,15 +501,29 @@ if (!prefersReducedMotion) {
     const nx = pointerX / Math.max(window.innerWidth, 1) - 0.5;
     const ny = pointerY / Math.max(window.innerHeight, 1) - 0.5;
     const scrollRatio = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1.4);
+    const cursorOpacity = Math.max(0, 0.38 * (1 - scrollRatio));
 
     root.style.setProperty("--pointer-x", `${pointerX}px`);
     root.style.setProperty("--pointer-y", `${pointerY}px`);
+    root.style.setProperty("--cursor-opacity", cursorOpacity.toFixed(3));
     root.style.setProperty("--hero-drift-x", `${nx * 8}px`);
     root.style.setProperty("--hero-drift-y", `${scrollRatio * 280 + ny * 10}px`);
     root.style.setProperty("--copy-drift-x", `${nx * -3}px`);
     root.style.setProperty("--copy-drift-y", `${scrollRatio * -118 + ny * -4}px`);
-    root.style.setProperty("--kanji-drift-y", `${scrollRatio * -170}px`);
+    root.style.setProperty("--kanji-drift-y", `${scrollRatio * -260}px`);
     root.style.setProperty("--hero-scale", `${1 + scrollRatio * 0.095}`);
+    root.style.setProperty("--section-rail-x", "0px");
+    root.style.setProperty("--section-rail-y", `${scrollRatio * -148 + ny * 8}px`);
+    root.style.setProperty("--section-kanji-x", `${nx * 30}px`);
+    root.style.setProperty("--section-kanji-y", `${scrollRatio * -96 + ny * -22}px`);
+
+    parallaxSections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const localProgress = (window.innerHeight / 2 - (rect.top + rect.height / 2)) / Math.max(window.innerHeight, 1);
+      const clamped = Math.max(-1.4, Math.min(1.4, localProgress));
+      section.style.setProperty("--local-rail-y", `${clamped * -150}px`);
+      section.style.setProperty("--local-kanji-y", `${clamped * -230}px`);
+    });
     ticking = false;
   }
 

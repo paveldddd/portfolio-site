@@ -76,9 +76,10 @@ button {
 }
 
 .page-texture {
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  inset: 0 0 auto;
   z-index: 20;
+  height: 100svh;
   pointer-events: none;
   opacity: 0.24;
   background:
@@ -92,17 +93,18 @@ button {
 
 .cursor-light {
   position: fixed;
-  left: var(--pointer-x, 50vw);
-  top: var(--pointer-y, 42vh);
+  left: 0;
+  top: 0;
   z-index: 1;
   width: 34rem;
   height: 34rem;
   pointer-events: none;
-  opacity: 0.38;
+  opacity: var(--cursor-opacity, 0.38);
   background: radial-gradient(circle, rgba(214, 220, 226, 0.13), rgba(143, 30, 30, 0.07) 28%, transparent 62%);
   filter: blur(18px);
-  transform: translate(-50%, -50%);
+  transform: translate3d(var(--pointer-x, 50vw), var(--pointer-y, 42vh), 0) translate(-50%, -50%);
   transition: opacity 240ms ease;
+  will-change: transform, opacity;
 }
 
 .site-header {
@@ -412,6 +414,59 @@ p {
   letter-spacing: 0.18em;
 }
 
+.section-rail {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  color: rgba(232, 235, 238, 0.42);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: translate3d(0, calc(-50% + var(--section-rail-y, 0px) + var(--local-rail-y, 0px)), 0);
+  will-change: transform;
+}
+
+.section-rail::before,
+.section-rail::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 36px;
+  margin: 14px auto;
+  background: linear-gradient(transparent, rgba(232, 235, 238, 0.28), transparent);
+}
+
+.section-rail.rail-left {
+  left: clamp(22px, 3.4vw, 62px);
+}
+
+.section-rail.rail-right {
+  right: clamp(22px, 3.4vw, 62px);
+}
+
+.section-kanji {
+  position: absolute;
+  right: clamp(34px, 9vw, 154px);
+  bottom: clamp(24px, 5vw, 86px);
+  z-index: 0;
+  color: rgba(143, 30, 30, 0.16);
+  font-family: "Noto Serif JP", "Yu Mincho", serif;
+  font-size: clamp(7rem, 17vw, 18rem);
+  font-weight: 900;
+  line-height: 0.8;
+  pointer-events: none;
+  transform: translate3d(var(--section-kanji-x, 0px), calc(var(--section-kanji-y, 0px) + var(--local-kanji-y, 0px)), 0);
+  will-change: transform;
+}
+
+.section-kanji-contact {
+  left: clamp(28px, 7vw, 120px);
+  right: auto;
+  bottom: clamp(18px, 3vw, 54px);
+}
+
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -616,6 +671,7 @@ p {
 .profile-card {
   position: relative;
   display: grid;
+  grid-template-rows: auto auto 1fr auto;
   gap: 22px;
   align-content: start;
   margin-top: clamp(-112px, -6vw, -82px);
@@ -691,10 +747,13 @@ p {
 }
 
 .tool-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   border: 1px solid rgba(232, 235, 238, 0.22);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.045);
-  padding: 8px 12px;
+  padding: 7px 12px 7px 8px;
   color: var(--text);
   font-size: 0.72rem;
   font-weight: 900;
@@ -702,11 +761,27 @@ p {
   text-transform: uppercase;
 }
 
+.tool-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(232, 235, 238, 0.24);
+  border-radius: 50%;
+  background: rgba(232, 235, 238, 0.09);
+  color: var(--silver);
+  font-size: 0.62rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
 .profile-link {
   position: relative;
   z-index: 1;
   display: inline-flex;
   width: fit-content;
+  margin-top: auto;
   min-height: 42px;
   align-items: center;
   justify-content: center;
@@ -781,10 +856,12 @@ p {
 }
 
 .contact {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 28px;
   align-items: end;
+  overflow: hidden;
 }
 
 .contact h2 {
@@ -1014,6 +1091,26 @@ p {
     margin-top: 0;
   }
 
+  .career-path {
+    grid-template-columns: 1fr;
+    border-bottom: 0;
+  }
+
+  .career-item {
+    display: grid;
+    grid-template-columns: minmax(112px, 0.28fr) minmax(0, 1fr);
+    gap: 10px 18px;
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 20px;
+  }
+
+  .career-item span {
+    grid-row: 1 / span 2;
+    margin-bottom: 0;
+  }
+
   .hero-samurai {
     width: min(1120px, 132vw);
     top: -60px;
@@ -1067,7 +1164,9 @@ p {
 
   .cursor-light,
   .kanji-mark,
-  .retro-rail {
+  .retro-rail,
+  .section-rail,
+  .section-kanji {
     display: none;
   }
 
@@ -1089,6 +1188,21 @@ p {
 
   .section-head {
     grid-template-columns: 1fr;
+  }
+
+  .career-item {
+    grid-template-columns: minmax(88px, 0.34fr) minmax(0, 1fr);
+    gap: 8px 14px;
+    padding: 18px;
+  }
+
+  .career-item span {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+  }
+
+  .career-item p {
+    font-size: 0.86rem;
   }
 
   .gallery {
@@ -1138,11 +1252,17 @@ p {
 
   .hero-samurai,
   .hero-copy,
-  .kanji-mark {
+  .kanji-mark,
+  .section-rail,
+  .section-kanji {
     transform: none;
   }
 
   .hero-samurai {
     transform: translateX(-50%);
+  }
+
+  .section-rail {
+    transform: translateY(-50%);
   }
 }
