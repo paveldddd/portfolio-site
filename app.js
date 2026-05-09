@@ -69,6 +69,8 @@ const projects = [
     category: "hard-surface",
     label: "Hard surface",
     image: "assets/imported/gallery/signal-light/pavlo_p-3.jpg",
+    mobileImage: "assets/imported/gallery/signal-light/pavlo_p-1.jpg",
+    mobilePosition: "center center",
     images: [
       "assets/imported/gallery/signal-light/pavlo_p-1_1.jpg",
       "assets/imported/gallery/signal-light/pavlo_p-1.jpg",
@@ -79,8 +81,6 @@ const projects = [
       "assets/imported/gallery/signal-light/pavlo_p-5.jpg",
       "assets/imported/gallery/signal-light/pavlo_p-10.jpg",
       "assets/imported/gallery/signal-light/pavlo_p-wireframe-1_1.jpg",
-      "assets/imported/gallery/signal-light/pavlo_p-wireframe-2_1.jpg",
-      "assets/imported/gallery/signal-light/pavlo_p-wireframe-1.jpg",
       "assets/imported/gallery/signal-light/pavlo_p-wireframe-2.jpg",
       "assets/imported/gallery/signal-light/pavlo_p-photo-2026-04-12-23-59-21.jpg",
     ],
@@ -337,10 +337,10 @@ function renderGallery() {
   gallery.innerHTML = projects
     .map(
       (project, index) => `
-        <article class="project-card ${project.featured ? "project-card-featured" : ""}" data-category="${project.category}" data-tags="${getProjectTags(project).join(" ")}" data-index="${index}" tabindex="0">
-          <picture>
-            ${project.mobileImage ? `<source media="(max-width: 640px)" srcset="${project.mobileImage}">` : ""}
-            <img src="${project.image}" alt="${project.title}">
+      <article class="project-card ${project.featured ? "project-card-featured" : ""}" data-category="${project.category}" data-tags="${getProjectTags(project).join(" ")}" data-index="${index}" tabindex="0">
+        <picture>
+          ${project.mobileImage ? `<source media="(max-width: 640px)" srcset="${project.mobileImage}">` : ""}
+            <img src="${project.image}" alt="${project.title}" style="--project-position: ${project.position || "center"}; --project-mobile-position: ${project.mobilePosition || project.position || "center"};">
           </picture>
           <div class="project-info">
             <h3>${project.title}</h3>
