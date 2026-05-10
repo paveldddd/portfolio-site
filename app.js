@@ -94,8 +94,8 @@ const projects = [
   },
   {
     title: "Sketches and WIPs",
-    category: "portraits",
-    label: "Portraits",
+    category: "characters",
+    label: "Characters",
     image: "assets/imported/gallery/sketches/pavlo_p-ravel-karasyov-04fd6947965811-588a31fa7aa7c.jpg",
     images: [
       "assets/imported/gallery/sketches/pavlo_p-ravel-karasyov-04fd6947965811-588a31fa7aa7c.jpg",
@@ -268,6 +268,7 @@ const projects = [
     category: "hard-surface",
     label: "Hard surface",
     image: "assets/imported/gallery/advertisement/pavlo_p-burgera.webp",
+    mobileImage: "assets/imported/gallery/advertisement/pavlo_p-burger3.jpg",
     images: [
       "assets/imported/gallery/advertisement/pavlo_p-0106-1-4.gif",
       "assets/imported/gallery/advertisement/pavlo_p-burger3.jpg",
@@ -327,7 +328,7 @@ function getProjectTags(project) {
     tags.add("realistic");
   }
 
-  if (project.category === "stylization" || project.title === "Kiki") {
+  if (project.category === "stylization" || project.title === "Kiki" || project.title === "Sketches and WIPs") {
     tags.add("stylization");
   }
 
