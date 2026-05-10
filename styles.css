@@ -182,9 +182,12 @@ button {
   left: 50%;
   bottom: 46px;
   width: 1px;
-  height: 42px;
+  height: calc(42px + var(--scroll-line-grow, 0px));
   background: linear-gradient(var(--dim), transparent);
   opacity: var(--scroll-cue-opacity, 1);
+  transform: translate3d(-50%, var(--scroll-line-y, 0px), 0);
+  transform-origin: top center;
+  will-change: height, opacity, transform;
 }
 
 .hero-samurai {
@@ -382,14 +385,14 @@ p {
   position: absolute;
   bottom: 92px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate3d(-50%, var(--scroll-cue-y, 0px), 0);
   color: var(--dim);
   font-size: 0.62rem;
   font-weight: 800;
   letter-spacing: 0.17em;
   text-transform: uppercase;
   opacity: var(--scroll-cue-opacity, 1);
-  transition: opacity 160ms ease;
+  will-change: opacity, transform;
 }
 
 .work,

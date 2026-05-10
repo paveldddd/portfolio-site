@@ -267,10 +267,12 @@ const projects = [
     title: "Advertisement",
     category: "hard-surface",
     label: "Hard surface",
-    image: "assets/imported/gallery/advertisement/pavlo_p-burger3.jpg",
+    image: "assets/imported/gallery/advertisement/pavlo_p-burgera.webp",
     images: [
       "assets/imported/gallery/advertisement/pavlo_p-0106-1-4.gif",
       "assets/imported/gallery/advertisement/pavlo_p-burger3.jpg",
+      "assets/imported/gallery/advertisement/pavlo_p-burgera.webp",
+      "assets/imported/gallery/advertisement/pavlo_p-burger.webp",
     ],
     description:
       "Commercial presentation work with polished composition and direct portfolio clarity.",
@@ -310,6 +312,13 @@ const parallaxSections = document.querySelectorAll(".profile, .contact");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let activeProject = null;
 let projectHistoryOpen = false;
+
+function getProjectSlug(project) {
+  return project.title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
 function getProjectTags(project) {
   const tags = new Set([project.category]);
@@ -377,7 +386,11 @@ function openProject(index, pushHistory = true) {
   document.body.classList.add("modal-open");
   renderProjectGallery();
   if (pushHistory) {
-    history.pushState({ projectOpen: true }, "", window.location.href);
+    history.pushState(
+      { projectOpen: true, projectIndex: index },
+      "",
+      `${window.location.pathname}${window.location.search}#project-${getProjectSlug(activeProject)}`
+    );
     projectHistoryOpen = true;
   }
   modalClose.focus();
@@ -502,12 +515,18 @@ if (!prefersReducedMotion) {
     const ny = pointerY / Math.max(window.innerHeight, 1) - 0.5;
     const scrollRatio = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1.4);
     const cursorOpacity = Math.max(0, 0.38 * (1 - scrollRatio));
-    const scrollCueOpacity = Math.max(0, 1 - window.scrollY / 180);
+    const scrollCueProgress = Math.min(window.scrollY / 420, 1);
+    const scrollCueOpacity = Math.max(0, 1 - scrollCueProgress);
+    const scrollCueY = -66 * scrollCueProgress;
+    const scrollLineGrow = 34 * scrollCueProgress;
 
     root.style.setProperty("--pointer-x", `${pointerX}px`);
     root.style.setProperty("--pointer-y", `${pointerY}px`);
     root.style.setProperty("--cursor-opacity", cursorOpacity.toFixed(3));
     root.style.setProperty("--scroll-cue-opacity", scrollCueOpacity.toFixed(3));
+    root.style.setProperty("--scroll-cue-y", `${scrollCueY.toFixed(1)}px`);
+    root.style.setProperty("--scroll-line-y", `${scrollLineGrow.toFixed(1)}px`);
+    root.style.setProperty("--scroll-line-grow", `${scrollLineGrow.toFixed(1)}px`);
     root.style.setProperty("--hero-drift-x", `${nx * 8}px`);
     root.style.setProperty("--hero-drift-y", `${scrollRatio * 280 + ny * 10}px`);
     root.style.setProperty("--copy-drift-x", `${nx * -3}px`);
