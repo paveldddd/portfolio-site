@@ -262,8 +262,8 @@ button {
 
 .section-stamp {
   position: absolute;
-  top: clamp(112px, 10vw, 168px);
-  right: clamp(18px, 4vw, 70px);
+  top: clamp(84px, 8.2vw, 132px);
+  right: clamp(54px, 8vw, 138px);
   color: rgba(143, 30, 30, 0.072);
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(4rem, 10vw, 9rem);
