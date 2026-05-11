@@ -192,7 +192,7 @@ button {
 
 .hero-samurai {
   position: absolute;
-  top: -84px;
+  top: -58px;
   left: 50%;
   z-index: -2;
   width: min(1060px, 84vw);
@@ -211,7 +211,7 @@ button {
   width: min(720px, 100%);
   margin-inline: auto;
   text-align: center;
-  transform: translate3d(var(--copy-drift-x, 0px), calc(clamp(76px, 10vh, 138px) + var(--copy-drift-y, 0px)), 0);
+  transform: translate3d(var(--copy-drift-x, 0px), calc(clamp(94px, 12vh, 164px) + var(--copy-drift-y, 0px)), 0);
   will-change: transform;
 }
 
