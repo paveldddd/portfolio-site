@@ -300,18 +300,19 @@ const projects = [
 const gallery = document.querySelector("#gallery");
 const filterButtons = document.querySelectorAll(".filter-button");
 const heroTagButtons = document.querySelectorAll(".hero-tags button");
+const emailLinks = document.querySelectorAll(".js-email-link");
 const modal = document.querySelector("#project-modal");
 const modalGallery = document.querySelector("#modal-gallery");
 const modalTitle = document.querySelector("#modal-title");
 const modalCategory = document.querySelector("#modal-category");
 const modalDescription = document.querySelector("#modal-description");
 const modalClose = document.querySelector(".modal-close");
-const galleryCount = document.querySelector("#gallery-count");
 const root = document.documentElement;
 const heroSamurai = document.querySelector(".hero-samurai");
 const parallaxSections = document.querySelectorAll(".profile, .contact");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let activeProject = null;
+let activeProjectIndex = -1;
 let projectHistoryOpen = false;
 
 function getProjectSlug(project) {
@@ -328,7 +329,12 @@ function getProjectTags(project) {
     tags.add("realistic");
   }
 
-  if (project.category === "stylization" || project.title === "Kiki" || project.title === "Sketches and WIPs") {
+  if (
+    project.category === "stylization" ||
+    project.title === "Kiki" ||
+    project.title === "Sketches and WIPs" ||
+    project.title === "Samurai"
+  ) {
     tags.add("stylization");
   }
 
@@ -350,7 +356,7 @@ function renderGallery() {
       <article class="project-card ${project.featured ? "project-card-featured" : ""}" data-category="${project.category}" data-tags="${getProjectTags(project).join(" ")}" data-index="${index}" tabindex="0">
         <picture>
           ${project.mobileImage ? `<source media="(max-width: 640px)" srcset="${project.mobileImage}">` : ""}
-            <img src="${project.image}" alt="${project.title}" style="--project-position: ${project.position || "center"}; --project-mobile-position: ${project.mobilePosition || project.position || "center"};">
+            <img src="${project.image}" alt="${project.title} project cover" style="--project-position: ${project.position || "center"}; --project-mobile-position: ${project.mobilePosition || project.position || "center"};">
           </picture>
           <div class="project-info">
             <h3>${project.title}</h3>
@@ -378,6 +384,7 @@ function setActiveFilter(activeButton) {
 }
 
 function openProject(index, pushHistory = true) {
+  activeProjectIndex = index;
   activeProject = projects[index];
   modalTitle.textContent = activeProject.title;
   modalCategory.textContent = activeProject.label;
@@ -405,7 +412,6 @@ function renderProjectGallery() {
   if (!activeProject) return;
 
   const images = getProjectImages(activeProject);
-  galleryCount.textContent = `${images.length} ${images.length === 1 ? "image" : "images"}`;
   const story = activeProject.story && activeProject.story.length
     ? `
       <section class="project-story" aria-label="Project description">
@@ -417,16 +423,59 @@ function renderProjectGallery() {
     `
     : "";
 
+  const relatedProjects = getRelatedProjects(activeProject, activeProjectIndex);
+  const related = relatedProjects.length
+    ? `
+      <section class="related-projects" aria-label="More portfolio work">
+        <div class="related-head">
+          <span>Next</span>
+          <h4>More work</h4>
+        </div>
+        <div class="related-grid">
+          ${relatedProjects
+            .map(
+              (project) => `
+                <button class="related-card" type="button" data-index="${project.index}">
+                  <img src="${project.image}" alt="${project.title} project cover">
+                  <span>${project.label}</span>
+                  <strong>${project.title}</strong>
+                </button>
+              `
+            )
+            .join("")}
+        </div>
+      </section>
+    `
+    : "";
+
   modalGallery.innerHTML = story + images
     .map(
       (image, imageIndex) => `
         <figure class="project-render" id="project-image-${imageIndex}">
-          <img src="${image}" alt="${activeProject.title} render ${imageIndex + 1}" loading="${imageIndex > 1 ? "lazy" : "eager"}">
+          <img src="${image}" alt="${activeProject.title} artwork ${imageIndex + 1}" loading="${imageIndex > 1 ? "lazy" : "eager"}">
         </figure>
       `
     )
-    .join("");
+    .join("") + related;
+  modal.scrollTop = 0;
   modalGallery.scrollTop = 0;
+}
+
+function getRelatedProjects(project, projectIndex) {
+  const activeTags = getProjectTags(project);
+  return projects
+    .map((item, index) => ({ ...item, index }))
+    .filter((item) => item.index !== projectIndex)
+    .map((item) => {
+      const itemTags = getProjectTags(item);
+      const score =
+        (item.category === project.category ? 3 : 0) +
+        itemTags.filter((tag) => activeTags.includes(tag)).length;
+      return { ...item, score };
+    })
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3);
 }
 
 function closeProject(syncHistory = true) {
@@ -439,6 +488,7 @@ function closeProject(syncHistory = true) {
   modal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-open");
   activeProject = null;
+  activeProjectIndex = -1;
   projectHistoryOpen = false;
 }
 
@@ -481,6 +531,16 @@ heroTagButtons.forEach((button) => {
   });
 });
 
+emailLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    const encoded = link.dataset.email;
+    if (!encoded) return;
+    const email = atob(encoded);
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`, "_blank", "noopener,noreferrer");
+  });
+});
+
 gallery.addEventListener("click", (event) => {
   const card = event.target.closest(".project-card");
   if (card) openProject(Number(card.dataset.index));
@@ -497,6 +557,10 @@ gallery.addEventListener("keydown", (event) => {
 modalClose.addEventListener("click", () => closeProject());
 modal.addEventListener("click", (event) => {
   if (event.target === modal) closeProject();
+});
+modalGallery.addEventListener("click", (event) => {
+  const card = event.target.closest(".related-card");
+  if (card) openProject(Number(card.dataset.index));
 });
 window.addEventListener("popstate", () => {
   if (modal.classList.contains("is-open")) closeProject(false);
@@ -539,6 +603,7 @@ if (!prefersReducedMotion) {
     root.style.setProperty("--section-rail-y", `${scrollRatio * -148 + ny * 8}px`);
     root.style.setProperty("--section-kanji-x", `${nx * 30}px`);
     root.style.setProperty("--section-kanji-y", `${scrollRatio * -96 + ny * -22}px`);
+    root.style.setProperty("--section-stamp-y", `${scrollRatio * -118 + ny * -18}px`);
 
     parallaxSections.forEach((section) => {
       const rect = section.getBoundingClientRect();

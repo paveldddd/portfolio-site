@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pavlopukha.com/sitemap.xml
+Sitemap: https://paul3d.digital/sitemap.xml
