@@ -98,7 +98,7 @@ const projects = [
     title: "Motanka",
     category: "characters",
     label: "Characters",
-    image: "assets/imported/gallery/motanka/cover.jpg",
+    image: "assets/imported/gallery/motanka/motka-01.jpg",
     layout: "tall",
     images: [
       "assets/imported/gallery/motanka/motka-01.jpg",
@@ -442,6 +442,29 @@ function openProject(index, pushHistory = true) {
   modalClose.focus();
 }
 
+function getProjectIndexFromHash(hash = window.location.hash) {
+  const prefix = "#project-";
+  if (!hash.startsWith(prefix)) return -1;
+
+  const slug = hash.slice(prefix.length);
+  return projects.findIndex((project) => getProjectSlug(project) === slug);
+}
+
+function syncProjectRoute() {
+  const routedProjectIndex = getProjectIndexFromHash();
+
+  if (routedProjectIndex >= 0) {
+    if (activeProjectIndex !== routedProjectIndex) {
+      openProject(routedProjectIndex, false);
+    }
+    return;
+  }
+
+  if (modal.classList.contains("is-open")) {
+    closeProject(false);
+  }
+}
+
 function getProjectImages(project) {
   return project.images && project.images.length ? project.images : [project.image];
 }
@@ -520,6 +543,10 @@ function closeProject(syncHistory = true) {
   if (syncHistory && projectHistoryOpen) {
     history.back();
     return;
+  }
+
+  if (syncHistory && getProjectIndexFromHash() >= 0) {
+    history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
   }
 
   modal.classList.remove("is-open");
@@ -601,12 +628,16 @@ modalGallery.addEventListener("click", (event) => {
   if (card) openProject(Number(card.dataset.index));
 });
 window.addEventListener("popstate", () => {
-  if (modal.classList.contains("is-open")) closeProject(false);
+  projectHistoryOpen = false;
+  syncProjectRoute();
 });
+window.addEventListener("hashchange", syncProjectRoute);
 document.addEventListener("keydown", (event) => {
   if (!modal.classList.contains("is-open")) return;
   if (event.key === "Escape") closeProject();
 });
+
+syncProjectRoute();
 
 if (!prefersReducedMotion) {
   let pointerX = window.innerWidth / 2;
