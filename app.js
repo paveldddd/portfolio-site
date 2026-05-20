@@ -33,6 +33,7 @@ const projects = [
     label: "Hard surface",
     image: "assets/imported/gallery/ae86/pavlo_p-b.webp",
     mobileImage: "assets/imported/gallery/ae86/pavlo_p-trueno-011.webp",
+    layout: "wide",
     images: [
       "assets/imported/gallery/ae86/pavlo_p-b.webp",
       "assets/imported/gallery/ae86/pavlo_p-trueno-011.webp",
@@ -71,6 +72,7 @@ const projects = [
     image: "assets/imported/gallery/signal-light/pavlo_p-3.jpg",
     mobileImage: "assets/imported/gallery/signal-light/pavlo_p-1.jpg",
     mobilePosition: "center center",
+    layout: "wide",
     images: [
       "assets/imported/gallery/signal-light/pavlo_p-1_1.jpg",
       "assets/imported/gallery/signal-light/pavlo_p-1.jpg",
@@ -90,6 +92,36 @@ const projects = [
     story: [
       "Old signal lamp from East Germany.",
       "I found this lamp in an environment modeling channel and thought: damn, what a great reference. How did this guy even come up with that? Then I realized I was actually browsing a flea market group. So I bought the lamp and became that very guy.",
+    ],
+  },
+  {
+    title: "Motanka",
+    category: "characters",
+    label: "Characters",
+    image: "assets/imported/gallery/motanka/cover.jpg",
+    layout: "tall",
+    images: [
+      "assets/imported/gallery/motanka/motka-01.jpg",
+      "assets/imported/gallery/motanka/motka-03.jpg",
+      "assets/imported/gallery/motanka/motka-05.jpg",
+      "assets/imported/gallery/motanka/motka-06.jpg",
+      "assets/imported/gallery/motanka/motka-07.jpg",
+      "assets/imported/gallery/motanka/motka-08-wires.jpg",
+      "assets/imported/gallery/motanka/motka-02.jpg",
+      "assets/imported/gallery/motanka/motka-04.jpg",
+      "assets/imported/gallery/motanka/motka-09-front-back.jpg",
+      "assets/imported/gallery/motanka/motka-10-wireframe.jpg",
+      "assets/imported/gallery/motanka/motka-11-high-poly.jpg",
+      "assets/imported/gallery/motanka/motka-12-atlas.jpg",
+      "assets/imported/gallery/motanka/motka-13-marvelous.jpg",
+      "assets/imported/gallery/motanka/motka-14-title.jpg",
+    ],
+    description:
+      "A personal character piece based on an original concept: a darker, wilder Ukrainian motanka doll with forest-spirit energy.",
+    storyLabel: "Original character concept",
+    story: [
+      "I created something weird: a traditional Ukrainian motanka doll, but more evil and wild, like some kind of forest spirit. And honestly, why should they even be kind?",
+      "This piece was made from my own concept. At first, I just wanted to practice Marvelous Designer and fabric texturing. Then somehow things got a little out of hand. Hope you'd like it!",
     ],
   },
   {
@@ -176,22 +208,19 @@ const projects = [
       "Stylized environment work with readable forms, controlled color, and game-art composition.",
   },
   {
-    title: "Trivio.Net",
-    category: "hard-surface",
-    label: "Hard surface",
-    image: "assets/imported/gallery/trivio/pavlo_p-b.jpg",
+    title: "Stylised Knight",
+    category: "stylization",
+    label: "Stylization",
+    image: "assets/imported/gallery/knight/pavlo_p-knight1.jpg",
     images: [
-      "assets/imported/gallery/trivio/pavlo_p-b.jpg",
-      "assets/imported/gallery/trivio/pavlo_p-a.jpg",
-      "assets/imported/gallery/trivio/pavlo_p-c.jpg",
-      "assets/imported/gallery/trivio/pavlo_p-5-2.jpg",
-      "assets/imported/gallery/trivio/pavlo_p-5-shop-flash.jpg",
-      "assets/imported/gallery/trivio/pavlo_p-1-flash-deal.jpg",
-      "assets/imported/gallery/trivio/pavlo_p-historical-sites-screen-4.jpg",
-      "assets/imported/gallery/trivio/pavlo_p-historical-site-7.jpg",
+      "assets/imported/gallery/knight/pavlo_p-knight3.jpg",
+      "assets/imported/gallery/knight/pavlo_p-knight5.jpg",
+      "assets/imported/gallery/knight/pavlo_p-knight1.jpg",
+      "assets/imported/gallery/knight/pavlo_p-knight4.jpg",
+      "assets/imported/gallery/knight/pavlo_p-knight-06.jpg",
     ],
     description:
-      "A polished production-style 3D presentation with a compact thumbnail read.",
+      "Stylized armor and character work balancing bold design with readable production forms.",
   },
   {
     title: "Subdivision and Hard-Surface Modeling",
@@ -249,19 +278,22 @@ const projects = [
       "Character exploration with personality, shape language, and creature-style presentation.",
   },
   {
-    title: "Stylised Knight",
-    category: "stylization",
-    label: "Stylization",
-    image: "assets/imported/gallery/knight/pavlo_p-knight1.jpg",
+    title: "Trivio.Net",
+    category: "hard-surface",
+    label: "Hard surface",
+    image: "assets/imported/gallery/trivio/pavlo_p-b.jpg",
     images: [
-      "assets/imported/gallery/knight/pavlo_p-knight3.jpg",
-      "assets/imported/gallery/knight/pavlo_p-knight5.jpg",
-      "assets/imported/gallery/knight/pavlo_p-knight1.jpg",
-      "assets/imported/gallery/knight/pavlo_p-knight4.jpg",
-      "assets/imported/gallery/knight/pavlo_p-knight-06.jpg",
+      "assets/imported/gallery/trivio/pavlo_p-b.jpg",
+      "assets/imported/gallery/trivio/pavlo_p-a.jpg",
+      "assets/imported/gallery/trivio/pavlo_p-c.jpg",
+      "assets/imported/gallery/trivio/pavlo_p-5-2.jpg",
+      "assets/imported/gallery/trivio/pavlo_p-5-shop-flash.jpg",
+      "assets/imported/gallery/trivio/pavlo_p-1-flash-deal.jpg",
+      "assets/imported/gallery/trivio/pavlo_p-historical-sites-screen-4.jpg",
+      "assets/imported/gallery/trivio/pavlo_p-historical-site-7.jpg",
     ],
     description:
-      "Stylized armor and character work balancing bold design with readable production forms.",
+      "A polished production-style 3D presentation with a compact thumbnail read.",
   },
   {
     title: "Advertisement",
@@ -283,6 +315,7 @@ const projects = [
     category: "characters",
     label: "Characters",
     image: "assets/imported/kiki-detail.jpg",
+    layout: "square",
     images: [
       "assets/imported/gallery/kiki/pavlo_p-ravel-karasyov-kiki-01.jpg",
       "assets/imported/gallery/kiki/pavlo_p-ravel-karasyov-kiki-03.jpg",
@@ -325,15 +358,20 @@ function getProjectSlug(project) {
 function getProjectTags(project) {
   const tags = new Set([project.category]);
 
-  if (project.category === "hard-surface" || project.category === "environment") {
+  if (project.category === "hard-surface" || project.category === "environment" || project.title === "Motanka") {
     tags.add("realistic");
+  }
+
+  if (project.title === "Motanka") {
+    tags.add("hard-surface");
   }
 
   if (
     project.category === "stylization" ||
     project.title === "Kiki" ||
     project.title === "Sketches and WIPs" ||
-    project.title === "Samurai"
+    project.title === "Samurai" ||
+    project.title === "Motanka"
   ) {
     tags.add("stylization");
   }
@@ -353,7 +391,7 @@ function renderGallery() {
   gallery.innerHTML = projects
     .map(
       (project, index) => `
-      <article class="project-card ${project.featured ? "project-card-featured" : ""}" data-category="${project.category}" data-tags="${getProjectTags(project).join(" ")}" data-index="${index}" tabindex="0">
+      <article class="project-card ${project.featured ? "project-card-featured" : ""} ${project.layout ? `project-card-${project.layout}` : ""}" data-category="${project.category}" data-tags="${getProjectTags(project).join(" ")}" data-index="${index}" tabindex="0">
         <picture>
           ${project.mobileImage ? `<source media="(max-width: 640px)" srcset="${project.mobileImage}">` : ""}
             <img src="${project.image}" alt="${project.title} project cover" style="--project-position: ${project.position || "center"}; --project-mobile-position: ${project.mobilePosition || project.position || "center"};">

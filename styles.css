@@ -558,17 +558,23 @@ p {
   opacity: 1;
 }
 
-.project-card:nth-child(1),
-.project-card:nth-child(2),
-.project-card:nth-child(3),
-.project-card:nth-child(13) {
+.project-card-featured,
+.project-card-wide,
+.project-card-tall {
   grid-column: span 2;
   min-height: 520px;
 }
 
-.project-card:nth-child(1) {
+.project-card-featured,
+.project-card-tall {
   grid-row: span 2;
-  min-height: 640px;
+  min-height: 680px;
+}
+
+.project-card-square {
+  grid-column: span 2;
+  aspect-ratio: 1 / 1;
+  min-height: 0;
 }
 
 .project-card:hover,
@@ -1376,7 +1382,12 @@ p {
   .project-card:nth-child(1),
   .project-card:nth-child(2),
   .project-card:nth-child(3),
-  .project-card:nth-child(13) {
+  .project-card:nth-child(13),
+  .project-card-featured,
+  .project-card-wide,
+  .project-card-tall,
+  .project-card-square {
+    aspect-ratio: auto;
     grid-column: span 1;
     grid-row: span 1;
     min-height: 430px;
