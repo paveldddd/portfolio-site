@@ -639,6 +639,34 @@ document.addEventListener("keydown", (event) => {
 
 syncProjectRoute();
 
+// The reflection follows direct scrolling independently of decorative parallax.
+{
+  const goldSurfaces = document.querySelectorAll(".hero h1, .hero-action, .filter-button, .button.primary, .contact-cta, .profile-link");
+  let shineFramePending = false;
+  function updateGoldReflection() {
+    // Each surface catches the light as it travels through the viewport.
+    // Reversing the scroll reverses the reflection; no idle animation is needed.
+    const viewportHeight = Math.max(window.innerHeight, 1);
+    goldSurfaces.forEach((surface) => {
+      const rect = surface.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > viewportHeight) return;
+      const progress = surface.matches(".hero h1, .hero-action")
+        ? Math.min(1, Math.max(0, window.scrollY / (viewportHeight * 0.38)))
+        : Math.min(1, Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)));
+      surface.style.setProperty("--gold-shine", `${(20 + progress * 110).toFixed(2)}%`);
+    });
+    shineFramePending = false;
+  }
+  function requestGoldReflection() {
+    if (shineFramePending) return;
+    shineFramePending = true;
+    requestAnimationFrame(updateGoldReflection);
+  }
+  window.addEventListener("scroll", requestGoldReflection, { passive: true });
+  window.addEventListener("resize", requestGoldReflection);
+  updateGoldReflection();
+}
+
 if (!prefersReducedMotion) {
   let pointerX = window.innerWidth / 2;
   let pointerY = window.innerHeight / 2;
