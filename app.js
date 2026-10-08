@@ -641,16 +641,22 @@ syncProjectRoute();
 
 // The reflection follows direct scrolling independently of decorative parallax.
 {
-  const goldSurfaces = document.querySelectorAll(".hero h1, .hero-action, .filter-button, .button.primary, .contact-cta, .profile-link");
+  const goldSurfaces = document.querySelectorAll(".hero-name-word, .hero-action, .filter-button, .button.primary, .contact-cta, .profile-link");
   let shineFramePending = false;
   function updateGoldReflection() {
     // Each surface catches the light as it travels through the viewport.
     // Reversing the scroll reverses the reflection; no idle animation is needed.
     const viewportHeight = Math.max(window.innerHeight, 1);
+    // Finish the first word, leave a short scroll gap, then start the second.
+    const nameProgress = Math.min(1, Math.max(0, window.scrollY / (viewportHeight * 0.2)));
+    const surnameProgress = Math.min(1, Math.max(0, (window.scrollY - viewportHeight * 0.27) / (viewportHeight * 0.2)));
+    root.style.setProperty("--name-progress", String(nameProgress * nameProgress * (3 - 2 * nameProgress)));
+    root.style.setProperty("--surname-progress", String(surnameProgress * surnameProgress * (3 - 2 * surnameProgress)));
+    root.style.setProperty("--subtitle-parallax", `${-Math.min(window.scrollY * 0.16, 72)}px`);
     goldSurfaces.forEach((surface) => {
       const rect = surface.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > viewportHeight) return;
-      const progress = surface.matches(".hero h1, .hero-action")
+      const progress = surface.matches(".hero-name-word, .hero-action")
         ? Math.min(1, Math.max(0, window.scrollY / (viewportHeight * 0.38)))
         : Math.min(1, Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)));
       surface.style.setProperty("--gold-shine", `${(20 + progress * 110).toFixed(2)}%`);
@@ -692,7 +698,7 @@ if (!prefersReducedMotion) {
     root.style.setProperty("--hero-drift-x", `${nx * 8}px`);
     root.style.setProperty("--hero-drift-y", `${scrollRatio * 280 + ny * 10}px`);
     root.style.setProperty("--copy-drift-x", `${nx * -3}px`);
-    root.style.setProperty("--copy-drift-y", `${scrollRatio * -118 + ny * -4}px`);
+    root.style.setProperty("--copy-drift-y", `${ny * -4}px`);
     root.style.setProperty("--kanji-drift-y", `${scrollRatio * -260}px`);
     root.style.setProperty("--hero-rail-y", `${scrollRatio * -190 + ny * 8}px`);
     root.style.setProperty("--hero-scale", `${1 + scrollRatio * 0.095}`);
