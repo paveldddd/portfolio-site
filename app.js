@@ -714,7 +714,11 @@ document.querySelectorAll(".haiku").forEach((haiku) => {
       .map((char, charIndex) => `<span class="haiku-char" style="--c:${charIndex}">${char}</span>`)
       .join("");
   });
-  haiku.querySelectorAll(".haiku-line").forEach((line, lineIndex) => line.style.setProperty("--i", lineIndex));
+  haiku.querySelectorAll(".haiku-line").forEach((line, lineIndex) => {
+    line.style.setProperty("--i", lineIndex);
+    // The inner span carries the scroll motion, so it never fights the intro transition.
+    line.innerHTML = `<span class="haiku-line-inner">${line.textContent}</span>`;
+  });
 });
 
 {
@@ -752,7 +756,34 @@ if (!prefersReducedMotion) {
   let pointerY = window.innerHeight / 2;
   // Smoothed values chase the real ones every frame, which gives the parallax a soft, inertial feel.
   const target = { scroll: window.scrollY, mx: 0, my: 0 };
-  const current = { scroll: window.scrollY, mx: 0, my: 0 };
+  const current = { scroll: window.scrollY, mx: 0, my: 0, haiku: window.scrollY };
+  const heroHaiku = document.querySelector(".haiku-hero");
+  const heroHaikuLines = heroHaiku ? [...heroHaiku.querySelectorAll(".haiku-line-inner")] : [];
+
+  // The hero haiku lingers: it holds its place for the first part of the scroll,
+  // then lets go line by line, top line first, each one trailing a little longer.
+  function updateHeroHaiku(viewportHeight) {
+    if (!heroHaiku) return;
+    const scroll = current.haiku;
+    const hold = viewportHeight * 0.16;
+    const released = Math.max(0, scroll - hold);
+    const fadeDistance = viewportHeight * 0.32;
+    // Pinned while holding, then drifts up at a fraction of the page speed.
+    const figureY = Math.min(scroll, hold) + released * 0.35;
+    heroHaiku.style.setProperty("--haiku-y", `${figureY.toFixed(1)}px`);
+    heroHaiku.style.setProperty("--haiku-fade", Math.max(0, 1 - Math.max(0, released - 140) / fadeDistance).toFixed(3));
+
+    heroHaikuLines.forEach((line, index) => {
+      const lag = index * 55;
+      const lineRelease = Math.max(0, released - lag);
+      // Lower lines stay back longer, so the poem slowly unthreads.
+      const lineY = Math.min(released, lag) * 0.6 - lineRelease * 0.18;
+      const opacity = Math.max(0, 1 - lineRelease / fadeDistance);
+      line.style.transform = `translate3d(${(lineRelease * 0.06 * (index % 2 ? -1 : 1)).toFixed(1)}px, ${lineY.toFixed(1)}px, 0)`;
+      line.style.opacity = opacity.toFixed(3);
+      line.style.filter = opacity < 0.995 ? `blur(${((1 - opacity) * 5).toFixed(2)}px)` : "";
+    });
+  }
   let running = false;
 
   function lerp(from, to, amount) {
@@ -763,6 +794,8 @@ if (!prefersReducedMotion) {
     current.scroll = lerp(current.scroll, target.scroll, 0.14);
     current.mx = lerp(current.mx, target.mx, 0.06);
     current.my = lerp(current.my, target.my, 0.06);
+    // The haiku uses a slower follow than the rest of the hero, so it trails behind.
+    current.haiku = lerp(current.haiku, target.scroll, 0.05);
 
     const viewportHeight = Math.max(window.innerHeight, 1);
     const heroProgress = Math.min(current.scroll / Math.max(hero.offsetHeight, 1), 1.2);
@@ -773,6 +806,7 @@ if (!prefersReducedMotion) {
     root.style.setProperty("--hp", heroProgress.toFixed(4));
     root.style.setProperty("--mx", nx.toFixed(4));
     root.style.setProperty("--my", ny.toFixed(4));
+    updateHeroHaiku(viewportHeight);
     root.style.setProperty("--pointer-x", `${pointerX}px`);
     root.style.setProperty("--pointer-y", `${pointerY}px`);
     root.style.setProperty("--cursor-opacity", Math.max(0, 0.38 * (1 - scrollRatio)).toFixed(3));
@@ -794,7 +828,8 @@ if (!prefersReducedMotion) {
     const settled =
       Math.abs(target.scroll - current.scroll) < 0.4 &&
       Math.abs(target.mx - current.mx) < 0.0008 &&
-      Math.abs(target.my - current.my) < 0.0008;
+      Math.abs(target.my - current.my) < 0.0008 &&
+      Math.abs(target.scroll - current.haiku) < 0.4;
 
     if (settled) {
       running = false;
