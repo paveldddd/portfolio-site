@@ -46,7 +46,12 @@
         ]
       }
     </script>
-    <link rel="stylesheet" href="styles.css?v=haiku-1">
+    <link rel="preload" as="image" href="assets/thumbs/hero-samurai-1280.webp" imagesrcset="assets/thumbs/hero-samurai-1280.webp 1280w, assets/thumbs/hero-samurai-2200.webp 2200w" imagesizes="(max-width: 640px) 158vw, (max-width: 920px) 132vw, min(1060px, 84vw)" fetchpriority="high">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500&display=swap&text=%E3%83%9E%E3%82%A6%E3%82%B9%E9%B3%B4%E3%81%8F%E3%81%B2%E3%81%A8%E3%82%8A%E3%81%93%E3%81%8A%E3%82%8D%E3%81%8E%E3%83%83%E3%82%AF%E5%87%8D%E3%81%A4%E5%8F%A5">
+    <link rel="stylesheet" href="styles.css?v=haiku-2">
   </head>
   <body>
     <div class="page-texture" aria-hidden="true"></div>
@@ -64,7 +69,17 @@
 
     <main id="top">
         <section class="hero section-band">
-          <img class="hero-samurai" src="assets/imported/samurai-render-rain-upscale.jpg" alt="">
+          <img class="hero-samurai" src="assets/thumbs/hero-samurai-1280.webp" srcset="assets/thumbs/hero-samurai-1280.webp 1280w, assets/thumbs/hero-samurai-2200.webp 2200w" sizes="(max-width: 640px) 158vw, (max-width: 920px) 132vw, min(1060px, 84vw)" alt="" fetchpriority="high" decoding="async">
+
+        <figure class="haiku haiku-hero" aria-hidden="true">
+          <p class="haiku-jp" lang="ja" aria-hidden="true"><span>マウス鳴く</span><span>ひとりこおろぎ</span><span>マックス凍つ</span></p>
+          <blockquote class="haiku-en">
+            <span class="haiku-line">The mouse keeps clicking</span>
+            <span class="haiku-line">Like a solitary cricket</span>
+            <span class="haiku-line">3ds Max has frozen</span>
+          </blockquote>
+          <span class="haiku-seal" aria-hidden="true">句</span>
+        </figure>
 
         <div class="kanji-mark" aria-hidden="true">武</div>
         <div class="retro-rail rail-left" aria-hidden="true">PORTFOLIO / 作品集</div>
@@ -85,12 +100,12 @@
           </div>
         </div>
 
-        <div class="filters" role="tablist" aria-label="Filter portfolio work">
-          <button class="filter-button active" type="button" data-filter="all" role="tab" aria-selected="true">All</button>
-          <button class="filter-button" type="button" data-filter="characters" role="tab" aria-selected="false">Characters</button>
-          <button class="filter-button" type="button" data-filter="hard-surface" role="tab" aria-selected="false">Hard surface</button>
-          <button class="filter-button" type="button" data-filter="stylization" role="tab" aria-selected="false">Stylized</button>
-          <button class="filter-button" type="button" data-filter="environment" role="tab" aria-selected="false">Environment</button>
+        <div class="filters" role="group" aria-label="Filter portfolio work">
+          <button class="filter-button active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-button" type="button" data-filter="characters" aria-pressed="false">Characters</button>
+          <button class="filter-button" type="button" data-filter="hard-surface" aria-pressed="false">Hard surface</button>
+          <button class="filter-button" type="button" data-filter="stylization" aria-pressed="false">Stylized</button>
+          <button class="filter-button" type="button" data-filter="environment" aria-pressed="false">Environment</button>
         </div>
 
         <div class="gallery" id="gallery" aria-live="polite"></div>
@@ -180,7 +195,16 @@
         <div class="section-kanji section-kanji-contact" aria-hidden="true">縁</div>
         <div>
           <span class="section-number">03</span>
-          <h2 class="contact-haiku">The mouse keeps clicking<br>Like a solitary cricket<br>3ds Max has frozen</h2>
+          <h2 class="visually-hidden">Contact</h2>
+          <figure class="haiku haiku-contact" aria-label="Haiku">
+            <p class="haiku-jp" lang="ja" aria-hidden="true"><span>マウス鳴く</span><span>ひとりこおろぎ</span><span>マックス凍つ</span></p>
+            <blockquote class="haiku-en">
+              <span class="haiku-line">The mouse keeps clicking</span>
+              <span class="haiku-line">Like a solitary cricket</span>
+              <span class="haiku-line">3ds Max has frozen</span>
+            </blockquote>
+            <span class="haiku-seal" aria-hidden="true">句</span>
+          </figure>
         </div>
         <div class="contact-actions">
           <a class="button primary" href="https://www.linkedin.com/in/pavelpouhat/" target="_blank" rel="noreferrer">
@@ -195,6 +219,12 @@
             </svg>
             Gmail
           </a>
+          <button class="button ghost js-copy-email" type="button" data-email="UGF2ZWwuZGRkQGdtYWlsLmNvbQ==">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M8 3h11a2 2 0 0 1 2 2v11h-2V5H8V3Zm-3 4h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Zm0 2v10h10V9H5Z"/>
+            </svg>
+            <span>Copy email</span>
+          </button>
           <a class="button ghost" href="https://pavlo_p.artstation.com/" target="_blank" rel="noreferrer">
             <svg aria-hidden="true" viewBox="0 0 24 24">
               <path d="M3.1 15.7 6 20.8h11.4l-2.9-5.1H3.1Zm18.8 0L13.5 1.2H7.7l11.3 19.6 2.9-5.1ZM8.6 6.4l-3.4 6h7l-3.6-6Z"/>
@@ -221,7 +251,7 @@
       </div>
     </div>
 
-    <script src="app.js?v=haiku-1"></script>
+    <script src="app.js?v=haiku-2"></script>
     <script>
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>

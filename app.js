@@ -1,6 +1,7 @@
 const projects = [
   {
     title: "Samurai",
+    tags: ["characters"],
     category: "characters",
     label: "Characters",
     image: "assets/imported/samurai-render-rain.jpg",
@@ -29,6 +30,7 @@ const projects = [
   },
   {
     title: "Toyota Sprinter Trueno 1985 (AE86)",
+    tags: ["hard-surface"],
     category: "hard-surface",
     label: "Hard surface",
     image: "assets/imported/gallery/ae86/pavlo_p-b.webp",
@@ -67,6 +69,7 @@ const projects = [
   },
   {
     title: "Vintage railway signal light",
+    tags: ["hard-surface"],
     category: "hard-surface",
     label: "Hard surface",
     image: "assets/imported/gallery/signal-light/pavlo_p-3.jpg",
@@ -96,6 +99,7 @@ const projects = [
   },
   {
     title: "Motanka",
+    tags: ["characters", "stylization"],
     category: "characters",
     label: "Characters",
     image: "assets/imported/gallery/motanka/motka-01.jpg",
@@ -126,6 +130,7 @@ const projects = [
   },
   {
     title: "Sketches and WIPs",
+    tags: ["characters", "stylization"],
     category: "characters",
     label: "Characters",
     image: "assets/imported/gallery/sketches/pavlo_p-ravel-karasyov-04fd6947965811-588a31fa7aa7c.jpg",
@@ -147,8 +152,9 @@ const projects = [
   },
   {
     title: "Anime style Comic",
+    tags: ["stylization", "characters"],
     category: "stylization",
-    label: "Stylization",
+    label: "Stylized",
     image: "assets/imported/gallery/anime-comic/pavlo_p-ravel-karasyov-comix-01.jpg",
     images: [
       "assets/imported/gallery/anime-comic/pavlo_p-ravel-karasyov-comix-02.jpg",
@@ -172,6 +178,7 @@ const projects = [
   },
   {
     title: "Environment assets 02",
+    tags: ["environment"],
     category: "environment",
     label: "Environment",
     image: "assets/imported/gallery/environment-assets-02/pavlo_p-desert.jpg",
@@ -189,6 +196,7 @@ const projects = [
   },
   {
     title: "Environment stylized",
+    tags: ["environment", "stylization"],
     category: "environment",
     label: "Environment",
     image: "assets/imported/gallery/environment-stylized/pavlo_p-screens-for-steam-0041-layer-2.jpg",
@@ -209,8 +217,9 @@ const projects = [
   },
   {
     title: "Stylised Knight",
+    tags: ["stylization", "characters"],
     category: "stylization",
-    label: "Stylization",
+    label: "Stylized",
     image: "assets/imported/gallery/knight/pavlo_p-knight1.jpg",
     images: [
       "assets/imported/gallery/knight/pavlo_p-knight3.jpg",
@@ -224,6 +233,7 @@ const projects = [
   },
   {
     title: "Subdivision and Hard-Surface Modeling",
+    tags: ["hard-surface"],
     category: "hard-surface",
     label: "Hard surface",
     image: "assets/imported/gallery/subdivision-hard-surface/pavlo_p-apple-vision-pro-05.webp",
@@ -255,6 +265,7 @@ const projects = [
   },
   {
     title: "Bigfoot characters",
+    tags: ["characters"],
     category: "characters",
     label: "Characters",
     image: "assets/imported/gallery/bigfoot/bigfoot-cover.png",
@@ -279,6 +290,7 @@ const projects = [
   },
   {
     title: "Trivio.Net",
+    tags: ["hard-surface"],
     category: "hard-surface",
     label: "Hard surface",
     image: "assets/imported/gallery/trivio/pavlo_p-b.jpg",
@@ -297,6 +309,7 @@ const projects = [
   },
   {
     title: "Advertisement",
+    tags: ["hard-surface"],
     category: "hard-surface",
     label: "Hard surface",
     image: "assets/imported/gallery/advertisement/pavlo_p-burgera.webp",
@@ -312,6 +325,7 @@ const projects = [
   },
   {
     title: "Kiki",
+    tags: ["characters", "stylization"],
     category: "characters",
     label: "Characters",
     image: "assets/imported/kiki-detail.jpg",
@@ -332,7 +346,6 @@ const projects = [
 
 const gallery = document.querySelector("#gallery");
 const filterButtons = document.querySelectorAll(".filter-button");
-const heroTagButtons = document.querySelectorAll(".hero-tags button");
 const emailLinks = document.querySelectorAll(".js-email-link");
 const modal = document.querySelector("#project-modal");
 const modalGallery = document.querySelector("#modal-gallery");
@@ -356,51 +369,47 @@ function getProjectSlug(project) {
 }
 
 function getProjectTags(project) {
-  const tags = new Set([project.category]);
+  return project.tags && project.tags.length ? project.tags : [project.category];
+}
 
-  if (project.category === "hard-surface" || project.category === "environment" || project.title === "Motanka") {
-    tags.add("realistic");
-  }
+// Lightweight WebP previews live in assets/thumbs (720w, 1400w and 2000w).
+// Cards crop with object-fit: cover, so "sizes" accounts for the cropped width, not just the card width.
+function getThumb(src, width) {
+  const base = src
+    .replace("assets/imported/", "")
+    .replace("gallery/", "")
+    .replace(/\//g, "--")
+    .replace(/\.[a-z0-9]+$/i, "");
+  return `assets/thumbs/${base}-${width}.webp`;
+}
 
-  if (project.title === "Motanka") {
-    tags.add("hard-surface");
-  }
-
-  if (
-    project.category === "stylization" ||
-    project.title === "Kiki" ||
-    project.title === "Sketches and WIPs" ||
-    project.title === "Samurai" ||
-    project.title === "Motanka"
-  ) {
-    tags.add("stylization");
-  }
-
-  if (project.category === "characters" || project.title === "Anime style Comic" || project.title === "Stylised Knight") {
-    tags.add("characters");
-  }
-
-  if (project.title === "Samurai" || project.title === "Bigfoot characters") {
-    tags.add("realistic");
-  }
-
-  return [...tags];
+function getThumbSrcset(src) {
+  return `${getThumb(src, 720)} 720w, ${getThumb(src, 1400)} 1400w, ${getThumb(src, 2000)} 2000w`;
 }
 
 function renderGallery() {
   gallery.innerHTML = projects
     .map(
-      (project, index) => `
-      <article class="project-card ${project.featured ? "project-card-featured" : ""} ${project.layout ? `project-card-${project.layout}` : ""}" data-category="${project.category}" data-tags="${getProjectTags(project).join(" ")}" data-index="${index}" tabindex="0">
+      (project, index) => {
+        const isTall = Boolean(project.featured || project.layout === "tall");
+        const isWide = project.layout === "wide" || project.layout === "square";
+        const sizes = isTall
+          ? "(max-width: 640px) 200vw, 120vw"
+          : isWide
+            ? "(max-width: 640px) 200vw, (max-width: 920px) 100vw, 64vw"
+            : "(max-width: 640px) 200vw, (max-width: 920px) 60vw, 42vw";
+        return `
+      <article class="project-card ${project.featured ? "project-card-featured" : ""} ${project.layout ? `project-card-${project.layout}` : ""}" data-category="${project.category}" data-tags="${getProjectTags(project).join(" ")}" data-index="${index}" tabindex="0" role="button" aria-label="Open project: ${project.title}">
         <picture>
-          ${project.mobileImage ? `<source media="(max-width: 640px)" srcset="${project.mobileImage}">` : ""}
-            <img src="${project.image}" alt="${project.title} project cover" style="--project-position: ${project.position || "center"}; --project-mobile-position: ${project.mobilePosition || project.position || "center"};">
+          ${project.mobileImage ? `<source media="(max-width: 640px)" srcset="${getThumbSrcset(project.mobileImage)}" sizes="200vw">` : ""}
+            <img src="${getThumb(project.image, 720)}" srcset="${getThumbSrcset(project.image)}" sizes="${sizes}" alt="${project.title} project cover" loading="${index < 3 ? "eager" : "lazy"}" decoding="async" ${index === 0 ? 'fetchpriority="high"' : ""} style="--project-position: ${project.position || "center"}; --project-mobile-position: ${project.mobilePosition || project.position || "center"};">
           </picture>
           <div class="project-info">
             <h3>${project.title}</h3>
           </div>
         </article>
-      `
+      `;
+      }
     )
     .join("");
 }
@@ -417,7 +426,7 @@ function setActiveFilter(activeButton) {
   filterButtons.forEach((item) => {
     const isActive = item === activeButton;
     item.classList.toggle("active", isActive);
-    item.setAttribute("aria-selected", String(isActive));
+    item.setAttribute("aria-pressed", String(isActive));
   });
 }
 
@@ -497,7 +506,7 @@ function renderProjectGallery() {
             .map(
               (project) => `
                 <button class="related-card" type="button" data-index="${project.index}">
-                  <img src="${project.image}" alt="${project.title} project cover">
+                  <img src="${getThumb(project.image, 720)}" alt="${project.title} project cover" loading="lazy" decoding="async">
                   <span>${project.label}</span>
                   <strong>${project.title}</strong>
                 </button>
@@ -586,16 +595,6 @@ filterButtons.forEach((button) => {
   });
 });
 
-heroTagButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const filter = button.dataset.filter;
-    const matchingFilter = [...filterButtons].find((item) => item.dataset.filter === filter);
-    if (matchingFilter) setActiveFilter(matchingFilter);
-    filterProjects(filter);
-    document.querySelector("#work").scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
-  });
-});
-
 emailLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
@@ -603,6 +602,27 @@ emailLinks.forEach((link) => {
     if (!encoded) return;
     const email = atob(encoded);
     window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`, "_blank", "noopener,noreferrer");
+  });
+});
+
+// Fallback for visitors who do not use Gmail in the browser.
+document.querySelectorAll(".js-copy-email").forEach((button) => {
+  const label = button.querySelector("span");
+  const initialLabel = label.textContent;
+  let resetTimer = 0;
+  button.addEventListener("click", async () => {
+    const email = atob(button.dataset.email || "");
+    if (!email) return;
+    try {
+      await navigator.clipboard.writeText(email);
+      label.textContent = "Copied";
+    } catch {
+      window.location.href = `mailto:${email}`;
+    }
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+      label.textContent = initialLabel;
+    }, 2200);
   });
 });
 
@@ -634,7 +654,26 @@ window.addEventListener("popstate", () => {
 window.addEventListener("hashchange", syncProjectRoute);
 document.addEventListener("keydown", (event) => {
   if (!modal.classList.contains("is-open")) return;
-  if (event.key === "Escape") closeProject();
+  if (event.key === "Escape") {
+    closeProject();
+    return;
+  }
+  // Keep keyboard focus inside the open project.
+  if (event.key === "Tab") {
+    const focusable = [...modal.querySelectorAll("button, a[href], [tabindex]:not([tabindex='-1'])")].filter(
+      (element) => element.getClientRects().length > 0
+    );
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
 });
 
 syncProjectRoute();
@@ -647,12 +686,6 @@ syncProjectRoute();
     // Each surface catches the light as it travels through the viewport.
     // Reversing the scroll reverses the reflection; no idle animation is needed.
     const viewportHeight = Math.max(window.innerHeight, 1);
-    // Finish the first word, leave a short scroll gap, then start the second.
-    const nameProgress = Math.min(1, Math.max(0, window.scrollY / (viewportHeight * 0.2)));
-    const surnameProgress = Math.min(1, Math.max(0, (window.scrollY - viewportHeight * 0.27) / (viewportHeight * 0.2)));
-    root.style.setProperty("--name-progress", String(nameProgress * nameProgress * (3 - 2 * nameProgress)));
-    root.style.setProperty("--surname-progress", String(surnameProgress * surnameProgress * (3 - 2 * surnameProgress)));
-    root.style.setProperty("--subtitle-parallax", `${-Math.min(window.scrollY * 0.16, 72)}px`);
     goldSurfaces.forEach((surface) => {
       const rect = surface.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > viewportHeight) return;
@@ -673,35 +706,76 @@ syncProjectRoute();
   updateGoldReflection();
 }
 
+// Haiku: split the Japanese lines into characters so they can appear like brush strokes.
+document.querySelectorAll(".haiku").forEach((haiku) => {
+  haiku.querySelectorAll(".haiku-jp > span").forEach((line, lineIndex) => {
+    line.style.setProperty("--i", lineIndex);
+    line.innerHTML = [...line.textContent]
+      .map((char, charIndex) => `<span class="haiku-char" style="--c:${charIndex}">${char}</span>`)
+      .join("");
+  });
+  haiku.querySelectorAll(".haiku-line").forEach((line, lineIndex) => line.style.setProperty("--i", lineIndex));
+});
+
+{
+  const heroHaiku = document.querySelector(".haiku-hero");
+  const contactHaiku = document.querySelector(".haiku-contact");
+  const play = (haiku) => haiku && haiku.classList.add("is-playing");
+  // Wait for the fonts so the lines never flash in a fallback face.
+  const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  Promise.race([fontsReady, new Promise((resolve) => setTimeout(resolve, 1200))]).then(() => {
+    requestAnimationFrame(() => play(heroHaiku));
+  });
+
+  if (contactHaiku && "IntersectionObserver" in window) {
+    const haikuObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            play(entry.target);
+            haikuObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.45 }
+    );
+    haikuObserver.observe(contactHaiku);
+  } else {
+    play(contactHaiku);
+  }
+}
+
 if (!prefersReducedMotion) {
+  const hero = document.querySelector(".hero");
+  const finePointer = window.matchMedia("(pointer: fine)").matches;
   let pointerX = window.innerWidth / 2;
   let pointerY = window.innerHeight / 2;
-  let ticking = false;
+  // Smoothed values chase the real ones every frame, which gives the parallax a soft, inertial feel.
+  const target = { scroll: window.scrollY, mx: 0, my: 0 };
+  const current = { scroll: window.scrollY, mx: 0, my: 0 };
+  let running = false;
+
+  function lerp(from, to, amount) {
+    return from + (to - from) * amount;
+  }
 
   function updateMotion() {
-    const nx = pointerX / Math.max(window.innerWidth, 1) - 0.5;
-    const ny = pointerY / Math.max(window.innerHeight, 1) - 0.5;
-    const scrollRatio = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1.4);
-    const cursorOpacity = Math.max(0, 0.38 * (1 - scrollRatio));
-    const scrollCueProgress = Math.min(window.scrollY / 420, 1);
-    const scrollCueOpacity = Math.max(0, 1 - scrollCueProgress);
-    const scrollCueY = -66 * scrollCueProgress;
-    const scrollLineGrow = 34 * scrollCueProgress;
+    current.scroll = lerp(current.scroll, target.scroll, 0.14);
+    current.mx = lerp(current.mx, target.mx, 0.06);
+    current.my = lerp(current.my, target.my, 0.06);
 
+    const viewportHeight = Math.max(window.innerHeight, 1);
+    const heroProgress = Math.min(current.scroll / Math.max(hero.offsetHeight, 1), 1.2);
+    const scrollRatio = Math.min(current.scroll / viewportHeight, 1.4);
+    const nx = current.mx;
+    const ny = current.my;
+
+    root.style.setProperty("--hp", heroProgress.toFixed(4));
+    root.style.setProperty("--mx", nx.toFixed(4));
+    root.style.setProperty("--my", ny.toFixed(4));
     root.style.setProperty("--pointer-x", `${pointerX}px`);
     root.style.setProperty("--pointer-y", `${pointerY}px`);
-    root.style.setProperty("--cursor-opacity", cursorOpacity.toFixed(3));
-    root.style.setProperty("--scroll-cue-opacity", scrollCueOpacity.toFixed(3));
-    root.style.setProperty("--scroll-cue-y", `${scrollCueY.toFixed(1)}px`);
-    root.style.setProperty("--scroll-line-y", `${scrollLineGrow.toFixed(1)}px`);
-    root.style.setProperty("--scroll-line-grow", `${scrollLineGrow.toFixed(1)}px`);
-    root.style.setProperty("--hero-drift-x", `${nx * 8}px`);
-    root.style.setProperty("--hero-drift-y", `${scrollRatio * 280 + ny * 10}px`);
-    root.style.setProperty("--copy-drift-x", `${nx * -3}px`);
-    root.style.setProperty("--copy-drift-y", `${ny * -4}px`);
-    root.style.setProperty("--kanji-drift-y", `${scrollRatio * -260}px`);
-    root.style.setProperty("--hero-rail-y", `${scrollRatio * -190 + ny * 8}px`);
-    root.style.setProperty("--hero-scale", `${1 + scrollRatio * 0.095}`);
+    root.style.setProperty("--cursor-opacity", Math.max(0, 0.38 * (1 - scrollRatio)).toFixed(3));
     root.style.setProperty("--section-rail-x", "0px");
     root.style.setProperty("--section-rail-y", `${scrollRatio * -148 + ny * 8}px`);
     root.style.setProperty("--section-kanji-x", `${nx * 30}px`);
@@ -710,32 +784,53 @@ if (!prefersReducedMotion) {
 
     parallaxSections.forEach((section) => {
       const rect = section.getBoundingClientRect();
-      const localProgress = (window.innerHeight / 2 - (rect.top + rect.height / 2)) / Math.max(window.innerHeight, 1);
+      if (rect.bottom < -viewportHeight || rect.top > viewportHeight * 2) return;
+      const localProgress = (viewportHeight / 2 - (rect.top + rect.height / 2)) / viewportHeight;
       const clamped = Math.max(-1.4, Math.min(1.4, localProgress));
       section.style.setProperty("--local-rail-y", `${clamped * -150}px`);
       section.style.setProperty("--local-kanji-y", `${clamped * -230}px`);
     });
-    ticking = false;
-  }
 
-  function requestMotionUpdate() {
-    if (!ticking) {
-      ticking = true;
+    const settled =
+      Math.abs(target.scroll - current.scroll) < 0.4 &&
+      Math.abs(target.mx - current.mx) < 0.0008 &&
+      Math.abs(target.my - current.my) < 0.0008;
+
+    if (settled) {
+      running = false;
+    } else {
       requestAnimationFrame(updateMotion);
     }
   }
 
+  function requestMotionUpdate() {
+    if (running) return;
+    running = true;
+    requestAnimationFrame(updateMotion);
+  }
+
+  if (finePointer) {
+    window.addEventListener(
+      "pointermove",
+      (event) => {
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+        target.mx = pointerX / Math.max(window.innerWidth, 1) - 0.5;
+        target.my = pointerY / Math.max(window.innerHeight, 1) - 0.5;
+        requestMotionUpdate();
+      },
+      { passive: true }
+    );
+  }
+
   window.addEventListener(
-    "pointermove",
-    (event) => {
-      pointerX = event.clientX;
-      pointerY = event.clientY;
+    "scroll",
+    () => {
+      target.scroll = window.scrollY;
       requestMotionUpdate();
     },
     { passive: true }
   );
-
-  window.addEventListener("scroll", requestMotionUpdate, { passive: true });
   window.addEventListener("resize", requestMotionUpdate);
   requestMotionUpdate();
 
